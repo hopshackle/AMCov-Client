@@ -13,6 +13,11 @@ angular.module('amClientApp')
         controller: 'AboutCtrl',
         controllerAs: 'about'
       })
+      .when('/:covenant', {
+        templateUrl: 'views/covenant.html',
+        controller: 'CovCntrl',
+        controllerAs: 'cov'
+      })
       .otherwise({
         redirectTo: '/'
       });

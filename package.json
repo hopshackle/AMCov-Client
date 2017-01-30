@@ -43,7 +43,6 @@
     "build-css": "node-sass --include-path bower_components app/styles/main.scss app/styles/main.css"
   },
   "dependencies": {
-    "grunt": "^0.4.5",
     "node-sass": "^4.4.0"
   }
 }
