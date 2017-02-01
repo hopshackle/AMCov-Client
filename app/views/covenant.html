@@ -2,6 +2,10 @@
     <h2>Covenant of {{cov.covenantName}}</h2>
     <p>{{cov.description}}</p>
     <ul>
-        <li ng-repeat="magus in cov.allMagi">{{magus}}</li>
+        <li ng-repeat="magus in cov.allMagi">{{magus}}
+            <ol ng-repeat="season in cov[magus]">
+                {{season}}
+                </ol>
+        </li>
     </ul>
 </div>
