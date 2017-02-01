@@ -6,17 +6,13 @@ angular.module('amClientApp')
             var cov = this;
 
             cov.refreshGrid = function () {
-                console.log("Refreshing Grid");
                 for (var i = 2; i < cov.columnDefs.length; i++) {
                     // we skip the first two columns, which are year and season
-                    console.log(cov.selected);
                     cov.columnDefs[i].visible = cov.selected[i-2];
-                    console.log(cov.columnDefs[i]);
                 }
                 cov.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
             };
             cov.apiRegister = function (gridApi) {
-                console.log("Registering API");
                 cov.gridApi = gridApi;
             }
 
