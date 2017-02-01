@@ -1,7 +1,8 @@
-<div class="jumbotron">
+<div >
     <h2>Covenant of {{cov.covenantName}}</h2>
     <p>{{cov.description}}</p>
 </div>
 <div>
-    <div ui-grid="{ data: cov.seasons, enableSorting: false, columnDefs: cov.columnDefs }" class="myGrid"></div>
+    <div ui-grid="{ data: cov.seasons, enableSorting: false, columnDefs: cov.columnDefs, rowHeight: 66 }" 
+    ui-grid-resize-columns class="myGrid"></div>
 </div>

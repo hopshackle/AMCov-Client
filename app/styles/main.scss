@@ -69,18 +69,19 @@ body {
 
 /* Support for ui-grid */
 .myGrid {
-    width: 1000px;
-    height: 500px;
+    height: 98vh;
 }
-
-.ui-grid-cell-contents,
-.break-word {
-    height: auto !important;
-    white-space: normal !important;
-    -ms-text-overflow: clip;
-    -o-text-overflow: clip;
-    text-overflow: clip;
-    overflow: visible;
+.ui-grid-viewport, .ui-grid-cell-contents {
+//  word-wrap: break-word;
+  white-space: normal;
+}
+/*
+.ui-grid-row, .ui-grid-cell {
+  height: auto !important;
+}
+*/
+.covService {
+    font-style: italic;
 }
 
 /* Responsive: Portrait tablets and up */

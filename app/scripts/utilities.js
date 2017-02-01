@@ -37,6 +37,20 @@ function util() {
                 default:
                     return 'Unknown';
             }
+        },
+        createSeasonRecord(seasonData) {
+            return {
+                description: seasonData.description,
+                isService: seasonData.isService,
+                serviceForMagus: seasonData.serviceForMagus,
+                objId: seasonData._id,
+                prettyText: function () {
+                    if (this.isService) {
+                        return this.description + "<br/>[Covenant Service]";
+                    }
+                    return this.description;
+                }
+            };
         }
     }
 }

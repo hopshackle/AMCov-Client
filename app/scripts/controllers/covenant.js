@@ -17,11 +17,19 @@ angular.module('amClientApp')
             cov.allMagi = covRecord.members;
             cov.seasonMap = new Map();
             cov.columnDefs = [
-                {field: "year", width: 60},
-                {field: "season", width: 80}
+                { field: "year", width: 60 },
+                { field: "season", width: 80 }
             ]
             for (var m of cov.allMagi) {
-                cov.columnDefs.push({field: m, width: "*", cellClass: 'break-word'});
+                cov.columnDefs.push({
+                    displayName: m, field: m + ".prettyText()", width: "*",
+                    cellTemplate: '<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>',
+                    cellClass: function (grid, row, col, ri, rc) {
+                        var cellContents = grid.getCellValue(row, col);
+                        if (cellContents && cellContents.includes("[Covenant Service]"))
+                            return 'covService';
+                    }
+                });
             }
             for (var i in cov.allMagi) {
                 // get season data
@@ -44,9 +52,7 @@ angular.module('amClientApp')
                             }
                             cov.seasonMap.set(key, seasonRecord);
                         }
-                        seasonRecord[seasonData[j].magus] = seasonData[j].description;
-                        //                 seasonRecord.isService = seasonData[j].isService;
-                        //                seasonRecord.serviceForMagus = seasonData[j].serviceForMagus
+                        seasonRecord[seasonData[j].magus] = util.createSeasonRecord(seasonData[j]);
                         cov.seasonMap.set(key, seasonRecord);
                     }
                     cov.seasons = [];
