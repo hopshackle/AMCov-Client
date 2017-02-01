@@ -3,5 +3,5 @@
     <p>{{cov.description}}</p>
 </div>
 <div>
-    <div ui-grid="{ data: cov.seasons }" class="myGrid"></div>
+    <div ui-grid="{ data: cov.seasons, enableSorting: false, columnDefs: cov.columnDefs }" class="myGrid"></div>
 </div>

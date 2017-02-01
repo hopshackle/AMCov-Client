@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('CovCntrl', ['$routeParams', '$resource', function ($routeParams, $resource) {
+    .controller('CovCntrl', ['$routeParams', '$resource', 'util', function ($routeParams, $resource, util) {
         var cov = this;
         var baseURL = "http://localhost\:3000/api";
         var cov_db = $resource(baseURL + "/:covenant", null, {
@@ -16,10 +16,18 @@ angular.module('amClientApp')
             cov.description = covRecord.description;
             cov.allMagi = covRecord.members;
             cov.seasonMap = new Map();
-
+            cov.columnDefs = [
+                {field: "year", width: 60},
+                {field: "season", width: 80}
+            ]
+            for (var m of cov.allMagi) {
+                cov.columnDefs.push({field: m, width: "*", cellClass: 'break-word'});
+            }
             for (var i in cov.allMagi) {
                 // get season data
                 /* However I need to have the magus, year and seasons as the types
+                   so each time we encounter a new year/season, we create a record for it
+                   and add in columns for all magi in the covenant.
                 */
                 var m = cov.allMagi[i];
                 season_db.query({ covenant: cov.covenantName, magus: m }, function (seasonData) {
@@ -29,7 +37,7 @@ angular.module('amClientApp')
                         if (!seasonRecord) {
                             seasonRecord = {
                                 year: seasonData[j].year,
-                                season: seasonData[j].season
+                                season: util.seasonToString(seasonData[j].season)
                             };
                             for (var magusName of cov.allMagi) {
                                 seasonRecord[magusName] = "";
@@ -37,16 +45,19 @@ angular.module('amClientApp')
                             cov.seasonMap.set(key, seasonRecord);
                         }
                         seasonRecord[seasonData[j].magus] = seasonData[j].description;
-       //                 seasonRecord.isService = seasonData[j].isService;
-        //                seasonRecord.serviceForMagus = seasonData[j].serviceForMagus
+                        //                 seasonRecord.isService = seasonData[j].isService;
+                        //                seasonRecord.serviceForMagus = seasonData[j].serviceForMagus
                         cov.seasonMap.set(key, seasonRecord);
                     }
                     cov.seasons = [];
-                    console.log(cov.seasonMap);
+                    var sortedKeys = [];
                     for (var k of cov.seasonMap.keys()) {
+                        sortedKeys.push(k);
+                    }
+                    sortedKeys.sort();
+                    for (var k of sortedKeys) {
                         cov.seasons.push(cov.seasonMap.get(k));
                     }
-                    console.log(cov.seasons);
                 });
             }
 
