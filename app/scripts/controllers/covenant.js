@@ -9,7 +9,9 @@ angular.module('amClientApp')
                 console.log("Refreshing Grid");
                 for (var i = 2; i < cov.columnDefs.length; i++) {
                     // we skip the first two columns, which are year and season
-                    cov.columnDefs[i].visible = cov.selected[cov.columnDefs[i].field];
+                    console.log(cov.selected);
+                    cov.columnDefs[i].visible = cov.selected[i-2];
+                    console.log(cov.columnDefs[i]);
                 }
                 cov.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
             };
@@ -46,6 +48,7 @@ angular.module('amClientApp')
                         }
                     });
                 }
+                cov.selected = {};
                 for (var i in cov.allMagi) {
                     // get season data
                     /* However I need to have the magus, year and seasons as the types
@@ -53,6 +56,7 @@ angular.module('amClientApp')
                        and add in columns for all magi in the covenant.
                     */
                     var m = cov.allMagi[i];
+                    cov.selected[i] = true;
                     season_db.query({ covenant: cov.covenantName, magus: m }, function (seasonData) {
                         for (var j = 0; j < seasonData.length; j++) {
                             var key = seasonData[j].year + "-" + seasonData[j].season;
