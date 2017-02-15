@@ -42,9 +42,9 @@ angular.module('amClientApp')
             cov.endYear = 1235;
             cov.selected = {};
 
-            cov.reverseSelection = function () {
+            cov.selectAll = function (allOn) {
                 for (var i in cov.covenant.allMagi) {
-                    cov.selected[i] = !cov.selected[i];
+                    cov.selected[i] = allOn;
                 }
             }
 
@@ -66,8 +66,6 @@ angular.module('amClientApp')
 
             cov.enrichWithSeasonData = function () {
                 var seasonData = db.getSeasonData(cov);
-                // we then insert seasonData into seasonMap
-
             }
 
             cov.covenant = db.getCovenantDetails($routeParams.covenant);
