@@ -8,11 +8,6 @@ angular.module('amClientApp')
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
       .when('/:covenant', {
         templateUrl: 'views/covenant.html',
         controller: 'CovCntrl',

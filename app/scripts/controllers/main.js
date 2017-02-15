@@ -10,9 +10,4 @@
 angular.module('amClientApp')
   .controller('MainCtrl', function () {
     var main = this;
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
   });

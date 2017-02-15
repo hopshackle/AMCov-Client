@@ -1,86 +1,74 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('CovCntrl', ['$routeParams', '$resource', 'util', 'uiGridConstants',
-        function ($routeParams, $resource, util, uiGridConstants) {
+    .controller('CovCntrl', ['$routeParams', 'util', 'db', 'uiGridConstants',
+        function ($routeParams, util, db, uiGridConstants) {
             var cov = this;
 
-            cov.refreshGrid = function () {
-                for (var i = 2; i < cov.columnDefs.length; i++) {
-                    // we skip the first two columns, which are year and season
-                    cov.columnDefs[i].visible = cov.selected[i-2];
-                }
-                cov.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-            };
             cov.apiRegister = function (gridApi) {
                 cov.gridApi = gridApi;
             }
 
-            var baseURL = "http://localhost\:3000/api";
-            var cov_db = $resource(baseURL + "/:covenant", null, {
-                'update': { method: 'PUT' }
-            });
-            var season_db = $resource(baseURL + "/:covenant/:magus", null, {
-                'update': { method: 'PUT' }
-            });
+            cov.refreshGrid = function () {
+                // Rather than changing column visibility, it would be more robust to re-get all data
+                // but only for the magi requested
+                // In this case we do *not* default to showing any data at all!
 
-            cov_db.get({ covenant: $routeParams.covenant }, function (covRecord) {
-                cov.covenantName = covRecord.name;
-                cov.description = covRecord.description;
-                cov.allMagi = covRecord.members;
-                cov.seasonMap = new Map();
                 cov.columnDefs = [
                     { field: "year", width: 60 },
                     { field: "season", width: 80 }
                 ]
-                for (var m of cov.allMagi) {
-                    cov.columnDefs.push({
-                        displayName: m, field: m + ".prettyText()", width: "*",
-                        cellTemplate: '<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>',
-                        cellClass: function (grid, row, col, ri, rc) {
-                            var cellContents = grid.getCellValue(row, col);
-                            if (cellContents && cellContents.includes("[Covenant Service]"))
-                                return 'covService';
-                        }
-                    });
-                }
-                cov.selected = {};
-                for (var i in cov.allMagi) {
-                    // get season data
-                    /* However I need to have the magus, year and seasons as the types
-                       so each time we encounter a new year/season, we create a record for it
-                       and add in columns for all magi in the covenant.
-                    */
-                    var m = cov.allMagi[i];
-                    cov.selected[i] = true;
-                    season_db.query({ covenant: cov.covenantName, magus: m }, function (seasonData) {
-                        for (var j = 0; j < seasonData.length; j++) {
-                            var key = seasonData[j].year + "-" + seasonData[j].season;
-                            var seasonRecord = cov.seasonMap.get(key);
-                            if (!seasonRecord) {
-                                seasonRecord = {
-                                    year: seasonData[j].year,
-                                    season: util.seasonToString(seasonData[j].season)
-                                };
-                                for (var magusName of cov.allMagi) {
-                                    seasonRecord[magusName] = "";
-                                }
-                                cov.seasonMap.set(key, seasonRecord);
+                for (var i in cov.covenant.allMagi) {
+                    if (cov.selected[i]) {
+                        var m = cov.covenant.allMagi[i];
+                        cov.columnDefs.push({
+                            displayName: m, field: m + ".prettyText()", width: "*",
+                            cellTemplate: '<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>',
+                            cellClass: function (grid, row, col, ri, rc) {
+                                var cellContents = grid.getCellValue(row, col);
+                                if (cellContents && cellContents.includes("[Covenant Service]"))
+                                    return 'covService';
                             }
-                            seasonRecord[seasonData[j].magus] = util.createSeasonRecord(seasonData[j]);
-                            cov.seasonMap.set(key, seasonRecord);
-                        }
-                        cov.seasons = [];
-                        var sortedKeys = [];
-                        for (var k of cov.seasonMap.keys()) {
-                            sortedKeys.push(k);
-                        }
-                        sortedKeys.sort();
-                        for (var k of sortedKeys) {
-                            cov.seasons.push(cov.seasonMap.get(k));
-                        }
-                    });
+                        });
+                    }
                 }
+                cov.updateSeasonKeys(); // synch
+                cov.enrichWithSeasonData();   // asynch
 
-            });
+                cov.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+            };
+
+            cov.startYear = 1220;
+            cov.endYear = 1235;
+            cov.selected = {};
+
+            cov.reverseSelection = function () {
+                for (var i in cov.covenant.allMagi) {
+                    cov.selected[i] = !cov.selected[i];
+                }
+            }
+
+            cov.updateSeasonKeys = function () {
+                cov.seasonMap = new Map();
+                cov.seasonKeys = [];
+                for (var y = cov.startYear; y <= cov.endYear; y++) {
+                    for (var s = 1; s <= 4; s++) {
+                        var key = y + "-" + s;
+                        cov.seasonKeys.push(key);
+                        var seasonRecord = { year: y, season: util.seasonToString(s) }
+                        for (var magusName of cov.covenant.allMagi) {
+                            seasonRecord[magusName] = "";
+                        }
+                        cov.seasonMap.set(key, seasonRecord);
+                    }
+                }
+            }
+
+            cov.enrichWithSeasonData = function () {
+                var seasonData = db.getSeasonData(cov);
+                // we then insert seasonData into seasonMap
+
+            }
+
+            cov.covenant = db.getCovenantDetails($routeParams.covenant);
         }]);
