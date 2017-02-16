@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ngTouch',
     'ui.grid',
-    'ui.grid.resizeColumns'
+    'ui.grid.resizeColumns',
+    'ui.grid.cellNav'
   ]);
 

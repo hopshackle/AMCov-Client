@@ -7,13 +7,10 @@ angular.module('amClientApp')
 
             cov.apiRegister = function (gridApi) {
                 cov.gridApi = gridApi;
+           //     gridApi.cellNav.on.navigate(scope, openEditModal);
             }
 
             cov.refreshGrid = function () {
-                // Rather than changing column visibility, it would be more robust to re-get all data
-                // but only for the magi requested
-                // In this case we do *not* default to showing any data at all!
-
                 cov.columnDefs = [
                     { field: "year", width: 60 },
                     { field: "season", width: 80 }
@@ -23,7 +20,8 @@ angular.module('amClientApp')
                         var m = cov.covenant.allMagi[i];
                         cov.columnDefs.push({
                             displayName: m, field: m + ".prettyText()", width: "*",
-                            cellTemplate: '<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>',
+                            cellTemplate: '<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>' +
+                                    '<button ng-show="grid.appScope.cov.allowEdit" data-toggle="modal" data-target="#modal" class="btn btn-block btn-default btn-xs">Edit</button>',
                             cellClass: function (grid, row, col, ri, rc) {
                                 var cellContents = grid.getCellValue(row, col);
                                 if (cellContents && cellContents.includes("[Covenant Service]"))
@@ -41,6 +39,7 @@ angular.module('amClientApp')
             cov.startYear = 1220;
             cov.endYear = 1235;
             cov.selected = {};
+            cov.allowEdit = true;
 
             cov.selectAll = function (allOn) {
                 for (var i in cov.covenant.allMagi) {
