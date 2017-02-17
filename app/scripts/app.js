@@ -18,6 +18,7 @@ angular
     'ngTouch',
     'ui.grid',
     'ui.grid.resizeColumns',
-    'ui.grid.cellNav'
+    'ui.grid.cellNav',
+    'ui.bootstrap'
   ]);
 

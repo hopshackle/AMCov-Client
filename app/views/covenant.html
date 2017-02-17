@@ -9,14 +9,12 @@
         <div class="checkbox-inline" ng-repeat="magus in cov.covenant.allMagi">
             <input ng-model="cov.selected[$index]" id="{{magus}}" type="checkbox" name="{{magus}}" value="" /><label for="{{magus}}">{{magus}}</label>
         </div>
-        <div class="btn-group">
             <div class="btn btn-primary btn-small" ng-click="cov.selectAll(true)">
                 Select All
             </div>
             <div class="btn btn-primary btn-small" ng-click="cov.selectAll(false)">
                 Deselect All
             </div>
-        </div>
         <p>
             <div class="form-horizontal form-inline">
                 <label for="startYear">From </label>
@@ -27,8 +25,7 @@
         </p>
         <p>
             <div class="btn btn-lg btn-success" ng-click="cov.refreshGrid()">Refresh</div>
-            <div class="checkbox-inline">
-                <input ng-model="cov.allowEdit" type="checkbox" id="allowEdit"/><label for="allowEdit">Edit table</label>
+            <div class="btn btn-lg btn-success" ng-click="cov.toggleTableEditable()" ng-bind="cov.editPrompt">
             </div>
         </p>
     </div>
@@ -36,23 +33,4 @@
 <div>
     <div ui-grid="{ data: cov.seasons, enableSorting: false, columnDefs: cov.columnDefs, rowHeight: 66,
         onRegisterApi: cov.apiRegister }" ui-grid-resize-columns class="myGrid" ui-grid-cellnav></div>
-</div>
-<div class="modal fade" id="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-            </div>
-            <div class="modal-body">
-                <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
 </div>
