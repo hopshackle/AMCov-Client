@@ -79,6 +79,10 @@ angular.module('amClientApp')
             };
 
             cov.editCell = function(grid, row, col) {
+                var year = row.entity.year;
+                var season = row.entity.season;
+                var seasonAsInt = util.seasonToNumber(season);
+                var key = year + "-" + seasonAsInt;
                 $uibModal.open({
                     templateUrl: 'views/edit-modal.html',
                     controller: 'SeasonEditController',
@@ -86,7 +90,9 @@ angular.module('amClientApp')
                     resolve: {
                         year: function () { return row.entity.year; },
                         season: function () { return row.entity.season; },
-                        magus: function() { return col.displayName;}
+                        magus: function() { return col.displayName;},
+                        data: function() { return cov.seasonMap.get(key)[col.displayName]},
+                        covenant: function() {return cov.covenant;}
                    }
                 });
             }

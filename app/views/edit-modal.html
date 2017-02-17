@@ -1,12 +1,24 @@
 <div>
-    <div class="modal-header">
-        <h5 class="modal-title"><strong>{{vm.magus}}</strong> : {{vm.season}} of {{vm.year}}</h5>
+    <div class="modal-header">]
         <button type="button" class="close" ng-click="vm.close()">
           <span aria-hidden="true">&times;</span>
         </button>
+        <h2 class="modal-title"><strong>{{vm.magus}}</strong> : {{vm.season}} of {{vm.year}}</h2>
     </div>
     <div class="modal-body">
-        <p>Modal body text goes here.</p>
+        <div class="form-group">
+            <label for="detail">Description </label>
+            <textarea class="form-control" rows="5" id="detail" ng-model="vm.data.description"></textarea>
+        </div>
+        <div class="form-group">
+            <div class="checkbox">
+                <label><input type="checkbox" id="isService" ng-model="vm.data.isService"> Covenant Service? </label>
+            </div>
+            <select class="form-control" id="serviceFor" ng-model="vm.data.serviceForMagus">
+                <option></option>
+                <option ng-repeat="magi in vm.covenant.allMagi | filter : '!' + vm.magus">{{magi}}</option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" ng-click="vm.save()">Save changes</button>

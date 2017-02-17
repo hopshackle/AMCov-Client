@@ -8,11 +8,27 @@ function db(util, $resource) {
     var cov_db = $resource(baseURL + "/:covenant", null, {
         'update': { method: 'PUT' }
     });
-    var season_db = $resource(baseURL + "/:covenant/:magus", null, {
+    var season_db = $resource(baseURL + "/:covenant/:magus/:objId", null, {
         'update': { method: 'PUT' }
     });
 
     return {
+        writeRecord: function (covenant, magus, year, season, data) {
+            console.log(data);
+            console.log(JSON.stringify(data));
+            data.year = year;
+            data.season = season;
+            data.itemsUsed = data.itemsUsed.join("|");
+            if (data.objId) {
+                season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), function (result) {
+                    console.log(result);
+                });
+            } else {
+                season_db.save({ covenant: covenant}, JSON.stringify(data), function (result) {
+                    console.log(result);
+                });
+            }
+        },
         getCovenantDetails: function (c) {
             var covenantDetails = {};
             cov_db.get({ covenant: c }, function (covRecord) {
