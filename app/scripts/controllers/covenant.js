@@ -7,24 +7,24 @@ angular.module('amClientApp')
 
             cov.apiRegister = function (gridApi) {
                 cov.gridApi = gridApi;
-                //     gridApi.cellNav.on.navigate(scope, openEditModal);
             }
 
             cov.refreshGrid = function () {
                 cov.columnDefs = [
-                    { field: "year", width: 60 },
-                    { field: "season", width: 80 }
+                    { field: "year", width: 60, allowCellFocus: false },
+                    { field: "season", width: 80, allowCellFocus: false }
                 ]
                 for (var i in cov.covenant.allMagi) {
                     if (cov.selected[i]) {
                         var m = cov.covenant.allMagi[i];
                         cov.columnDefs.push({
+                            allowCellFocus: true,
                             displayName: m, field: m + ".prettyText()", width: "*",
                             cellTemplate: 'templates/cellTemplate.html',
                             cellClass: function (grid, row, col, ri, rc) {
-                                var cellContents = grid.getCellValue(row, col);
-                                if (cellContents && cellContents.includes("[Covenant Service]"))
+                                if (cov.seasons[ri][col.displayName].isService) {
                                     return 'covService';
+                                }
                             }
                         });
                     }
@@ -49,15 +49,6 @@ angular.module('amClientApp')
                 }
             };
 
-            cov.toggleTableEditable = function () {
-                cov.allowEdit = !cov.allowEdit;
-                if (cov.allowEdit) {
-                    cov.editPrompt = "Turn off edit";
-                } else {
-                    cov.editPrompt = "Edit Seasons";
-                }
-            };
-
             cov.updateSeasonKeys = function () {
                 cov.seasonMap = new Map();
                 cov.seasonKeys = [];
@@ -67,7 +58,8 @@ angular.module('amClientApp')
                         cov.seasonKeys.push(key);
                         var seasonRecord = { year: y, season: util.seasonToString(s) }
                         for (var magusName of cov.covenant.allMagi) {
-                            seasonRecord[magusName] = "";
+                            seasonRecord[magusName] = {};
+                            seasonRecord[magusName].prettyText = function () { return "---" };
                         }
                         cov.seasonMap.set(key, seasonRecord);
                     }
@@ -78,7 +70,7 @@ angular.module('amClientApp')
                 var seasonData = db.getSeasonData(cov);
             };
 
-            cov.editCell = function(grid, row, col) {
+            cov.editCell = function (grid, row, col) {
                 var year = row.entity.year;
                 var season = row.entity.season;
                 var seasonAsInt = util.seasonToNumber(season);
@@ -90,10 +82,11 @@ angular.module('amClientApp')
                     resolve: {
                         year: function () { return row.entity.year; },
                         season: function () { return row.entity.season; },
-                        magus: function() { return col.displayName;},
-                        data: function() { return cov.seasonMap.get(key)[col.displayName]},
-                        covenant: function() {return cov.covenant;}
-                   }
+                        magus: function () { return col.displayName; },
+                        data: function () { return cov.seasonMap.get(key)[col.displayName] },
+                        onSave: function () { return cov.refreshGrid; },
+                        covenant: function () { return cov.covenant; }
+                    }
                 });
             }
         }]);

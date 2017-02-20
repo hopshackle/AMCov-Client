@@ -46,7 +46,7 @@ function util() {
                 objId: seasonData._id,
                 prettyText: function () {
                     if (this.isService) {
-                        return this.description + "<br/>[Covenant Service]";
+                        return this.description; // + "<br/>[Covenant Service]";
                     }
                     return this.description;
                 }

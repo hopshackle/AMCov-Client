@@ -1,3 +1,5 @@
-<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}"></div>
-<button ng-show="grid.appScope.cov.allowEdit" ng-click="grid.appScope.cov.editCell(grid, row, col)"
-class="btn btn-block btn-default btn-xs">Edit</button>',
+<div ng-bind-html="COL_FIELD" title="{{COL_FIELD}}" ng-dblclick="grid.appScope.cov.editCell(grid, row, col)"></div>
+
+
+<!-- <button ng-show="grid.appScope.cov.allowEdit" ng-click="grid.appScope.cov.editCell(grid, row, col)"
+class="btn btn-block btn-default btn-xs">Edit</button>' 

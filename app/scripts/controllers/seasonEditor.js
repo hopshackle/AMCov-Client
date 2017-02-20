@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('SeasonEditController', ['$uibModalInstance', 'db', 'data', 'covenant', 'year', 'season', 'magus',
-        function ($uibModalInstance, db, data, covenant, year, season, magus) {
+    .controller('SeasonEditController', ['$uibModalInstance', 'db', 'data', 'covenant', 'year', 'season', 'magus', 'onSave',
+        function ($uibModalInstance, db, data, covenant, year, season, magus, onSave) {
 
             var scope = this;
             scope.year = year;
@@ -17,15 +17,13 @@ angular.module('amClientApp')
             scope.data.serviceForMagus = data.serviceForMagus;
             scope.data.itemsUsed = data.itemsUsed ? data.itemsUsed.slice() : [];
 
-            console.log(data);
-            console.log(covenant);
-            console.log(year + " " + season + " " + magus);
-
             scope.close = function () {
                 $uibModalInstance.close();
             }
             scope.save = function () {
-                db.writeRecord(covenant.covenantName, magus, year, season, scope.data);
+                db.writeRecord(covenant.covenantName, magus, year, season, scope.data, function(result) {
+                    onSave();
+                });
                 $uibModalInstance.close();
             }
         }]);

@@ -13,21 +13,15 @@ function db(util, $resource) {
     });
 
     return {
-        writeRecord: function (covenant, magus, year, season, data) {
-            console.log(data);
-            console.log(JSON.stringify(data));
+        writeRecord: function (covenant, magus, year, season, data, callback) {
             data.magus = magus;
             data.year = year;
             data.season = util.seasonToNumber(season);
             data.itemsUsed = data.itemsUsed.join("|");
             if (data.objId) {
-                season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), function (result) {
-                    console.log(result);
-                });
+                season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), callback);
             } else {
-                season_db.save({ covenant: covenant}, JSON.stringify(data), function (result) {
-                    console.log(result);
-                });
+                season_db.save({ covenant: covenant}, JSON.stringify(data), callback);
             }
         },
         getCovenantDetails: function (c) {
