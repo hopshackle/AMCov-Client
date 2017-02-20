@@ -16,8 +16,9 @@ function db(util, $resource) {
         writeRecord: function (covenant, magus, year, season, data) {
             console.log(data);
             console.log(JSON.stringify(data));
+            data.magus = magus;
             data.year = year;
-            data.season = season;
+            data.season = util.seasonToNumber(season);
             data.itemsUsed = data.itemsUsed.join("|");
             if (data.objId) {
                 season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), function (result) {

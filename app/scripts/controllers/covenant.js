@@ -20,7 +20,7 @@ angular.module('amClientApp')
                         var m = cov.covenant.allMagi[i];
                         cov.columnDefs.push({
                             displayName: m, field: m + ".prettyText()", width: "*",
-                            cellTemplate: 'views/cellTemplate.html',
+                            cellTemplate: 'templates/cellTemplate.html',
                             cellClass: function (grid, row, col, ri, rc) {
                                 var cellContents = grid.getCellValue(row, col);
                                 if (cellContents && cellContents.includes("[Covenant Service]"))
@@ -84,7 +84,7 @@ angular.module('amClientApp')
                 var seasonAsInt = util.seasonToNumber(season);
                 var key = year + "-" + seasonAsInt;
                 $uibModal.open({
-                    templateUrl: 'views/edit-modal.html',
+                    templateUrl: 'templates/edit-modal.html',
                     controller: 'SeasonEditController',
                     controllerAs: 'vm',
                     resolve: {

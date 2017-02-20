@@ -19,6 +19,7 @@ angular.module('amClientApp')
 
             console.log(data);
             console.log(covenant);
+            console.log(year + " " + season + " " + magus);
 
             scope.close = function () {
                 $uibModalInstance.close();
