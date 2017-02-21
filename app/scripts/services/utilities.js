@@ -38,7 +38,7 @@ function util() {
                     return 'Unknown';
             }
         },
-        createSeasonRecord(seasonData) {
+        createSeasonRecord: function (seasonData) {
             return {
                 description: seasonData.description,
                 isService: seasonData.isService,
@@ -51,6 +51,26 @@ function util() {
                     return this.description;
                 }
             };
+        },
+        emptySeasonMap: function (covenant, startYear, endYear) {
+            var seasonMap = new Map();
+            var seasonKeys = [];
+            for (var y = startYear; y <= endYear; y++) {
+                for (var s = 1; s <= 4; s++) {
+                    var key = y + "-" + s;
+                    seasonKeys.push(key);
+                    var seasonRecord = { year: y, season: this.seasonToString(s) }
+                    for (var magusName of covenant.allMagi) {
+                        seasonRecord[magusName] = {};
+                        seasonRecord[magusName].prettyText = function () { return "---" };
+                    }
+                    seasonMap.set(key, seasonRecord);
+                }
+            }
+            var retValue = {};
+            retValue.keysInOrder = seasonKeys;
+            retValue.seasonMap = seasonMap;
+            return retValue;
         }
     }
 }
