@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('ServiceCntrl', ['$routeParams', 'util', 'db', 'uiGridConstants',
+    .controller('ServiceCtrl', ['$routeParams', 'util', 'db', 'uiGridConstants',
         function ($routeParams, util, db, uiGridConstants) {
             var service = this;
 

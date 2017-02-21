@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('CovCntrl', ['$routeParams', '$uibModal', 'util', 'db', 'uiGridConstants',
+    .controller('CovCtrl', ['$routeParams', '$uibModal', 'util', 'db', 'uiGridConstants',
         function ($routeParams, $uibModal, util, db, uiGridConstants) {
             var cov = this;
 

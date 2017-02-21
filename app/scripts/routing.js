@@ -10,12 +10,12 @@ angular.module('amClientApp')
       })
       .when('/:covenant/service', {
         templateUrl: 'views/service.html',
-        controller: 'ServiceCntrl',
+        controller: 'ServiceCtrl',
         controllerAs: 'service'
       })
       .when('/:covenant', {
         templateUrl: 'views/covenant.html',
-        controller: 'CovCntrl',
+        controller: 'CovCtrl',
         controllerAs: 'cov'
       })
       .otherwise({
