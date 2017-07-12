@@ -1,4 +1,11 @@
 <div>
+    <div>
+        <p> The table shows the number of seasons a magus has been in the covenant (measured from the number of seasons
+            that have an entry on the Lab History page), the number of seasons service they have provided to the covenant,
+            and seasons owed/owing to their sodales. Reading a line horizontally for a magus, a positive number indicates
+            net seasons provided to the magus in the column header, and hence that they are owed, while a negative number indicates a net
+            debt to the magus.
+        </div>
     <div ui-grid="{ data: service.displayData, enableSorting: true, columnDefs: service.columnDefs,
         onRegisterApi: service.apiRegister }" ui-grid-resize-columns class="myGrid"></div>
 </div>
