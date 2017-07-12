@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('amClientApp')
-    .controller('CovCtrl', ['$routeParams', '$uibModal', 'util', 'db', 'uiGridConstants',
-        function ($routeParams, $uibModal, util, db, uiGridConstants) {
+    .controller('CovCtrl', ['$routeParams', '$uibModal', 'util', 'db', 'uiGridConstants', 'hdr',
+        function ($routeParams, $uibModal, util, db, uiGridConstants, hdr) {
             var cov = this;
+
+            hdr.page ='labHistory';
+            hdr.setCovenant($routeParams.covenant);
 
             cov.apiRegister = function (gridApi) {
                 cov.gridApi = gridApi;
@@ -22,9 +25,14 @@ angular.module('amClientApp')
                             displayName: m, field: m + ".prettyText()", width: "*",
                             cellTemplate: 'templates/seasonCellTemplate.html',
                             cellClass: function (grid, row, col, ri, rc) {
+                                var result = "";
                                 if (row.entity[col.displayName].isService) {
-                                    return 'covService';
+                                    result = 'covService';
                                 }
+                                if (row.entity[col.displayName].serviceForMagus) {
+                                    result += ' forOtherMagus';
+                                }
+                                return result;
                             }
                         });
                     }

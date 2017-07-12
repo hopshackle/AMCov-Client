@@ -43,12 +43,12 @@ function db(util, $resource, $q) {
             var seasonKeys = thing.keysInOrder;
             var seasonMap = thing.seasonMap;
             var seasons = [];
-            for (var i in covenant.allMagi) {
-                var m = covenant.allMagi[i];
-                var promises = {};
+            var promises = [];
+            var db = this;
+            angular.forEach(covenant.allMagi, function(m) {
                 var newPromise = $q.defer();
-                promises[m] = newPromise;
-                this.getMagusData(covenant.covenantName, m, function (seasonData) {
+                promises.push(newPromise.promise);
+                db.getMagusData(covenant.covenantName, m, function (seasonData) {
                     for (var j = 0; j < seasonData.length; j++) {
                         var key = seasonData[j].year + "-" + seasonData[j].season;
                         if (seasonData[j].year <= endYear && seasonData[j].year >= startYear) {
@@ -59,11 +59,8 @@ function db(util, $resource, $q) {
                     }
                     newPromise.resolve();
                 });
-            }
-            var p = [];
-            for (var m in promises) {
-                p.push(promises[m]);
-            }
+            });
+
             $q.all(promises).then(function () {
                 for (var k of seasonKeys) {
                     seasons.push(seasonMap.get(k));
