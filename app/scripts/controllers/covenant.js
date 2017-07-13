@@ -5,7 +5,7 @@ angular.module('amClientApp')
         function ($routeParams, $uibModal, util, db, uiGridConstants, hdr) {
             var cov = this;
 
-            hdr.page ='labHistory';
+            hdr.page = 'labHistory';
             hdr.setCovenant($routeParams.covenant);
 
             cov.apiRegister = function (gridApi) {
@@ -41,19 +41,24 @@ angular.module('amClientApp')
                 cov.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
             };
 
-            cov.startYear = 1220;
-            cov.endYear = 1235;
-            cov.selected = {};
-
+            cov.startYear = parseInt(util.load($routeParams.covenant + "_sy", '1220'));
+            cov.endYear = parseInt(util.load($routeParams.covenant + "_ey", '1235'));
+            cov.selected = JSON.parse(util.load($routeParams.covenant + "_ms", '{}'));
+            
             cov.refreshGrid = function () {
+                util.save($routeParams.covenant + "_sy", cov.startYear);
+                util.save($routeParams.covenant + "_ey", cov.endYear);
+                util.save($routeParams.covenant + "_ms", JSON.stringify(cov.selected));
                 cov.seasons = db.getSeasonData(cov.covenant, cov.startYear, cov.endYear, function (data) {
                     cov.refreshColumns();
                 });
             };
 
             cov.covenant = db.getCovenantDetails($routeParams.covenant, function (covenant) {
-                for (var i in cov.covenant.allMagi) {
-                    cov.selected[i] = true;
+                if (Object.keys(cov.selected).length == 0) {
+                    for (var i in cov.covenant.allMagi) {
+                        cov.selected[i] = true;
+                    }
                 }
                 cov.refreshColumns();
                 cov.seasons = db.getSeasonData(covenant, cov.startYear, cov.endYear);

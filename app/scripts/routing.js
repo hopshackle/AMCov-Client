@@ -8,6 +8,11 @@ angular.module('amClientApp')
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
+      .when('/callback', {
+        templateUrl: 'views/callback.html',
+        controller: 'MainCtrl',
+        controllerAs: 'vm'
+      })
       .when('/:covenant/service', {
         templateUrl: 'views/service.html',
         controller: 'ServiceCtrl',

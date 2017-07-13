@@ -5,6 +5,14 @@ angular.module('amClientApp')
 
 function util() {
     return {
+        save: function (key, value) {
+            window.localStorage[key] = value;
+        },
+        load: function (key, defaultValue) {
+            var retValue = window.localStorage[key];
+            if (retValue) return retValue;
+            return defaultValue;
+        },
         convertToArray: function (items, separator) {
             console.log(items);
             if (items) return items.split(separator);
