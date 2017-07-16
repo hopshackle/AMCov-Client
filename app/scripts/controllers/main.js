@@ -14,7 +14,7 @@ angular.module('amClientApp')
   .controller('HeaderCtrl', ['hdr', 'authService', function(hdr, authService) {
     var header = this;
     header.hdr = hdr;
-    header.login = authService.login;
+    header.auth = authService;
   }])
   .service('hdr', function() {
     // put this as a service, so that all pages can easily update where the user

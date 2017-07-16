@@ -22,25 +22,37 @@ angular
     'ui.bootstrap',
     'auth0.auth0'
   ])
-  .config(config);
+  .config(config)
+  .run(run);
 
-  config.$inject = [
-    'angularAuth0Provider'
-  ];
+run.$inject = ['authService'];
 
-  function config(
-    angularAuth0Provider
-  ) {
+function run(authService) {
+  // Handle the authentication
+  // result in the hash
+  authService.handleAuthentication();
+}
 
-    // Initialization for the angular-auth0 library
-    angularAuth0Provider.init({
-      clientID: 'yOWNc5CAVRvDHLeGVw8BHU13HQxQHM7r',
-      domain: 'hopshackle.eu.auth0.com',
-      responseType: 'token id_token',
-      audience: 'https://hopshackle.eu.auth0.com/userinfo',
-      redirectUri: 'http://localhost:3000/#!/callback',
-      scope: 'openid'
-    });
-  }
+config.$inject = ['angularAuth0Provider', '$locationProvider'];
+
+function config(angularAuth0Provider, $locationProvider) {
+  // Initialization for the angular-auth0 library
+  angularAuth0Provider.init({
+    clientID: 'yOWNc5CAVRvDHLeGVw8BHU13HQxQHM7r',
+    domain: 'hopshackle.eu.auth0.com',
+    responseType: 'token id_token',
+    audience: 'https://hopshackle.eu.auth0.com/userinfo',
+    redirectUri: 'http://localhost:3000/#!/callback',
+    scope: 'openid'
+  });
+
+//   $locationProvider.hashPrefix('');
+
+  /// Comment out the line below to run the app
+  // without HTML5 mode (will use hashes in routes)
+  //$locationProvider.html5Mode({
+  //  enabled: true
+  //});
+}
 
 

@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <!-- <base href="/"> -->
   <meta charset="utf-8">
   <title></title>
   <meta name="description" content="">
@@ -34,7 +35,12 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-          <a class="navbar-brand" ng-click="h.login()">Login</a>
+          <div class="navbar-header">
+            <button class="btn btn-primary btn-margin" ng-if="!h.auth.isAuthenticated()" ng-click="h.auth.login()">
+          Log In</button>
+            <button class="btn btn-primary btn-margin" ng-if="h.auth.isAuthenticated()" ng-click="h.auth.logout()">
+          Log Out</button>
+          </div>
         </div>
 
         <div class="collapse navbar-collapse" id="js-navbar-collapse">
