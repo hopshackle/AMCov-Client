@@ -1,10 +1,14 @@
 'use strict';
 angular.module('amClientApp')
-    .service('db', ['util', '$resource', '$q', db]);
+    .service('db', ['util', '$resource', '$q', 'hdr', db]);
 
-function db(util, $resource, $q) {
+function db(util, $resource, $q, hdr) {
 
-    var baseURL = "http://localhost\:3000/api";
+    var port = (process.env.PORT || '3000');
+    var URL = (process.env.ARSMAGICAURL || 'www.arsmagica.uk');
+    var baseURL = 'http://' + URL + ':' + port + '/api';
+
+ //   var baseURL = "http://localhost\:5000/api";
     var cov_db = $resource(baseURL + "/:covenant", null, {
         'update': { method: 'PUT' }
     });
@@ -12,16 +16,24 @@ function db(util, $resource, $q) {
         'update': { method: 'PUT' }
     });
 
+    var onError = function (res) {
+        hdr.message = "Database Access Error: " + res.status + " " + res.statusText;
+        if (res.status == 401) {
+            hdr.message = hdr.message + "\nYou are not authorised to update data for this covenant";
+        }
+    };
+
     return {
         writeRecord: function (covenant, magus, year, season, data, callback) {
+            hdr.message = "";
             data.magus = magus;
             data.year = year;
             data.season = util.seasonToNumber(season);
             data.itemsUsed = data.itemsUsed.join("|");
             if (data.objId) {
-                season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), callback);
+                season_db.update({ covenant: covenant, magus: magus, objId: data.objId }, JSON.stringify(data), callback, onError);
             } else {
-                season_db.save({ covenant: covenant }, JSON.stringify(data), callback);
+                season_db.save({ covenant: covenant }, JSON.stringify(data), callback, onError);
             }
         },
         getCovenantDetails: function (c, callback) {
@@ -39,13 +51,14 @@ function db(util, $resource, $q) {
             season_db.query(apiParams, callback);
         },
         getSeasonData: function (covenant, startYear, endYear, callback) {
+            hdr.message = "";
             var thing = util.emptySeasonMap(covenant, startYear, endYear);
             var seasonKeys = thing.keysInOrder;
             var seasonMap = thing.seasonMap;
             var seasons = [];
             var promises = [];
             var db = this;
-            angular.forEach(covenant.allMagi, function(m) {
+            angular.forEach(covenant.allMagi, function (m) {
                 var newPromise = $q.defer();
                 promises.push(newPromise.promise);
                 db.getMagusData(covenant.covenantName, m, function (seasonData) {
@@ -65,9 +78,9 @@ function db(util, $resource, $q) {
                 for (var k of seasonKeys) {
                     seasons.push(seasonMap.get(k));
                 }
-                if (callback) callback(seasons);
+                if (callback) {callback(seasons);}
             });
             return seasons;
         }
-    }
+    };
 }

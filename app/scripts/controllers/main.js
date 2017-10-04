@@ -22,6 +22,7 @@ angular.module('amClientApp')
     var hdr = this;
     hdr.covenantSelected = false;
     hdr.covenant = "";
+    hdr.message = "";
     hdr.page = "index";
     hdr.setCovenant = function (covenant) {
       hdr.covenantSelected = true;

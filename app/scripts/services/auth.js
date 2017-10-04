@@ -17,7 +17,7 @@
     function handleAuthentication() {
       var mainHash = window.location.hash;
       var fudgedHash = '#/' + mainHash.slice(mainHash.indexOf('access_token'));
-      angularAuth0.parseHash({hash: fudgedHash}, function (err, authResult) {
+      angularAuth0.parseHash({ hash: fudgedHash }, function (err, authResult) {
         console.log(authResult);
         if (authResult && authResult.accessToken && authResult.idToken) {
           console.log(authResult);
@@ -47,10 +47,8 @@
     }
 
     function isAuthenticated() {
-      // Check whether the current time is past the 
-      // access token's expiry time
+      // Check whether the current time is past the access token's expiry time
       let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-      console.log("Token expires at " + expiresAt);
       return new Date().getTime() < expiresAt;
     }
 

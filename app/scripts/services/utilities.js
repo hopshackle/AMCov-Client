@@ -4,7 +4,9 @@ angular.module('amClientApp')
     .service('util', util);
 
 function util() {
+    
     return {
+
         save: function (key, value) {
             window.localStorage[key] = value;
         },
