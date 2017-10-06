@@ -4,9 +4,8 @@ angular.module('amClientApp')
 
 function db(util, $resource, $q, hdr) {
 
-    var port = (process.env.PORT || '3000');
-    var URL = (process.env.ARSMAGICAURL || 'www.arsmagica.uk');
-    var baseURL = 'http://' + URL + ':' + port + '/api';
+    var baseURL = hdr.url + ':' + hdr.port + '/api';
+    console.log("Using " + baseURL);
 
  //   var baseURL = "http://localhost\:5000/api";
     var cov_db = $resource(baseURL + "/:covenant", null, {

@@ -261,7 +261,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
- //             js: ['concat', 'uglifyjs'],  Currently uglify does not like 'of' iterations in JS
+              //             js: ['concat', 'uglifyjs'],  Currently uglify does not like 'of' iterations in JS
               js: ['concat'],
               css: ['cssmin']
             },
@@ -361,7 +361,7 @@ module.exports = function (grunt) {
           usemin: 'scripts/scripts.js'
         },
         cwd: '<%= yeoman.app %>',
-        src: 'views/{,*/}*.html',
+        src: ['views/{,*/}*.html', 'templates/{,*/}*.html'],
         dest: '.tmp/templateCache.js'
       }
     },
@@ -410,6 +410,16 @@ module.exports = function (grunt) {
           cwd: '.',
           src: 'bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*',
           dest: '<%= yeoman.dist %>'
+        }, {
+          expand: true,
+          flatten: true,
+          cwd: '.',
+          dest: '<%= yeoman.dist %>/styles/',
+          src: ['bower_components/angular-ui-grid/ui-grid.ttf',
+            'bower_components/angular-ui-grid/ui-grid.woff',
+            'bower_components/angular-ui-grid/ui-grid.eot',
+            'bower_components/angular-ui-grid/ui-grid.svg'
+          ]
         }]
       },
       styles: {
@@ -477,7 +487,7 @@ module.exports = function (grunt) {
     'copy:dist',
     'cdnify',
     'cssmin',
- //   'uglify',
+    //   'uglify',
     'filerev',
     'usemin',
     'htmlmin'
