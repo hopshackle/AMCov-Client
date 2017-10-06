@@ -4,6 +4,5 @@
     
       angular
         .module('amClientApp')
-        .constant('port', 5000)
-        .constant('callback', 'http://localhost');
+        .constant('callbackURI', 'https://arsmagica-covenants.herokuapp.com/#!/callback');
 })();
