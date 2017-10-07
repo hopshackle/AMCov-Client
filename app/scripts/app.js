@@ -36,7 +36,7 @@ function run(authService) {
 config.$inject = ['angularAuth0Provider',
   '$locationProvider',
   '$httpProvider',
-  'jwtOptionsProvider', 'callback'];
+  'jwtOptionsProvider', 'callbackURI'];
 
 
 function config(angularAuth0Provider, $locationProvider, $httpProvider, jwtOptionsProvider, callbackURI) {
@@ -51,7 +51,7 @@ function config(angularAuth0Provider, $locationProvider, $httpProvider, jwtOptio
     audience: 'arsmagica.uk',
     //    redirectUri: 'http://localhost:5000/#!/callback',
     redirectUri: callbackURI,
-    scope: 'openid update:foedus'
+    scope: 'openid'
   });
 
 
