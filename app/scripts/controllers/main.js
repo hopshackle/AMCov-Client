@@ -8,10 +8,13 @@
  * Controller of the amClientApp
  */
 angular.module('amClientApp')
-  .controller('MainCtrl', function () {
+  .controller('MainCtrl', ['db', function (db) {
     var main = this;
-    main.fghfh = '';
-  })
+    main.text = "Test";
+    db.getCovenantList(function (list) {
+      main.covenantList = list;
+    });
+  }])
   .controller('HeaderCtrl', ['hdr', 'authService', function (hdr, authService) {
     var header = this;
     header.hdr = hdr;
@@ -29,7 +32,7 @@ angular.module('amClientApp')
       hdr.url = $location.absUrl().split(':')[1].split('#')[0];
     }
     if (hdr.url.endsWith('/')) {
-      hdr.url = hdr.url.substring(0, hdr.url.length-1);
+      hdr.url = hdr.url.substring(0, hdr.url.length - 1);
     }
     if (hdr.url == 'http') {
       hdr.url = 'http://localhost';
@@ -44,4 +47,7 @@ angular.module('amClientApp')
       hdr.covenantSelected = true;
       hdr.covenant = covenant;
     };
+
+    // extract current list of covenants from server
+
   }]);

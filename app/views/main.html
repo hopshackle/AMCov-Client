@@ -1,9 +1,9 @@
 <div class="jumbotron">
   <h1>Select your covenant</h1>
   <p>
-    <a class="btn btn-lg btn-success" ng-href="#!/Foedus" ng-click="hdr.setCovenant('Foedus')">Foedus
-    <span class="glyphicon glyphicon-ok"></span></a>
-    <a class="btn btn-lg btn-success" ng-href="#!/Aoide" ng-click="hdr.setCovenant('Aoide')">Aoide
-    <span class="glyphicon glyphicon-ok"></span></a>
+    <span ng-repeat="c in main.covenantList">
+      <a class="btn btn-lg btn-success" ng-href="#!/{{c}}" ng-click="hdr.setCovenant(c)">{{c}}
+        <span class="glyphicon glyphicon-ok">
+      </a>&nbsp;</span>
   </p>
 </div>

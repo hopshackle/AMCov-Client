@@ -7,7 +7,8 @@ function db(util, $resource, $q, hdr) {
     var baseURL = hdr.url + ':' + hdr.port + '/api';
     console.log("Using " + baseURL);
 
- //   var baseURL = "http://localhost\:5000/api";
+    //   var baseURL = "http://localhost\:5000/api";
+    var covList_db = $resource(baseURL, null, {});
     var cov_db = $resource(baseURL + "/:covenant", null, {
         'update': { method: 'PUT' }
     });
@@ -34,6 +35,11 @@ function db(util, $resource, $q, hdr) {
             } else {
                 season_db.save({ covenant: covenant }, JSON.stringify(data), callback, onError);
             }
+        },
+        getCovenantList: function (callback) {
+            covList_db.query({}, function (covList) {
+                callback(covList);
+            });
         },
         getCovenantDetails: function (c, callback) {
             var covenantDetails = {};
@@ -77,7 +83,7 @@ function db(util, $resource, $q, hdr) {
                 for (var k of seasonKeys) {
                     seasons.push(seasonMap.get(k));
                 }
-                if (callback) {callback(seasons);}
+                if (callback) { callback(seasons); }
             });
             return seasons;
         }
