@@ -21,7 +21,7 @@ angular.module('amClientApp')
                 $uibModalInstance.close();
             }
             scope.save = function () {
-                db.writeRecord(covenant.covenantName, magus, year, season, scope.data, function(result) {
+                db.writeRecord(covenant.name, magus, year, season, scope.data, function(result) {
                     onSave();
                 });
                 $uibModalInstance.close();

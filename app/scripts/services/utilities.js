@@ -16,9 +16,12 @@ function util() {
             return defaultValue;
         },
         convertToArray: function (items, separator) {
-            console.log(items);
             if (items) return items.split(separator);
-            return items;
+            return [];
+        },
+        arrayToString: function(items, separator) {
+            if (items) return items.join(separator);
+            return "";
         },
         seasonToNumber: function (seasonAsString) {
             switch (seasonAsString) {
@@ -70,7 +73,7 @@ function util() {
                     var key = y + "-" + s;
                     seasonKeys.push(key);
                     var seasonRecord = { year: y, season: this.seasonToString(s) }
-                    for (var magusName of covenant.allMagi) {
+                    for (var magusName of covenant.members) {
                         seasonRecord[magusName] = {};
                         seasonRecord[magusName].prettyText = function () { return "---" };
                     }

@@ -46,6 +46,8 @@
             <li ng-class="{active:h.hdr.page=='index'}"><a href="#/" ng-class="{active:h.hdr.page=='index'}">Switch Covenant</a></li>
             <li ng-show="h.hdr.covenantSelected" ng-class="{active:h.hdr.page=='labHistory'}"><a ng-href="#!/{{h.hdr.covenant}}">Lab History</a></li>
             <li ng-show="h.hdr.covenantSelected" ng-class="{active:h.hdr.page=='service'}"><a ng-href="#!/{{h.hdr.covenant}}/service">Service Record</a></li>
+            <li ng-if="h.auth.isAuthenticated()" ng-click="h.hdr.set" ng-class="{active:h.hdr.page=='addCovenant'}"><a href="#!/addCovenant">New Covenant</a></li>
+            <li ng-if="h.auth.isAuthenticated() && h.hdr.covenantSelected" ng-class="{active:h.hdr.page=='amendCovenant'}"><a ng-href="#!/{{h.hdr.covenant}}/updateStatic">Amend Covenant</a></li>            
           </ul>
         </div>
       </div>
@@ -109,6 +111,7 @@
   <script src="scripts/controllers/covenant.js"></script>
   <script src="scripts/controllers/seasonEditor.js"></script>
   <script src="scripts/controllers/service.js"></script>
+  <script src="scripts/controllers/addCovenant.js"></script>
   <script src="scripts/services/auth.js"></script>
   <!-- endbuild -->
 </body>

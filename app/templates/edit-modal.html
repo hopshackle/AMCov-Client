@@ -16,7 +16,7 @@
             </div>
             <select class="form-control" id="serviceFor" ng-model="vm.data.serviceForMagus">
                 <option></option>
-                <option ng-repeat="magi in vm.covenant.allMagi | filter : '!' + vm.magus">{{magi}}</option>
+                <option ng-repeat="magi in vm.covenant.members | filter : '!' + vm.magus">{{magi}}</option>
             </select>
         </div>
     </div>

@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-md-12 form-group">
+        <!-- cov.selected is an object, with a numerically named property for each selected item -->
+        <!-- $index is evaluated as "0", "1", etc. -->
+        <!-- The elements we want in the form are:
+            - textbox for name
+            - canvas for description
+            - list for magi
+            -->
+        <p>
+            <div class="form-horizontal">
+                <label for="name">Covenant Name </label>
+                <input id="name" type="text" name="name" required="true" class="form-control" ng-model="vm.name"></input>
+                <label for="description">Description </label>
+                <textarea id="description" name="description" rows="5" required="true" class="form-control" ng-model="vm.description"></textarea>
+                <label for="magi">List of Magi</label>
+                <textarea id="magi" name="magi" rows="15" required="true" class="form-control" placeholder="Please enter one name per line"
+                    ng-model="vm.magiList"></textarea>
+                <div class="btn btn-lg btn-default" ng-click="vm.save()">Submit</div>
+                <div class="btn btn-lg btn-default" ng-click="vm.clear()">Clear</div>
+                <div ng-hide="vm.insertMode" class="btn btn-lg btn-danger pull-right" ng-click="vm.delete()">Delete Covenant</div>
+            </div>
+        </p>
+    </div>
+</div>
+</div>

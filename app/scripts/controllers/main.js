@@ -10,9 +10,11 @@
 angular.module('amClientApp')
   .controller('MainCtrl', ['db', function (db) {
     var main = this;
-    main.text = "Test";
+    main.covenantList = [];
     db.getCovenantList(function (list) {
-      main.covenantList = list;
+      for (var rec of list) {
+        main.covenantList.push(rec);
+      }
     });
   }])
   .controller('HeaderCtrl', ['hdr', 'authService', function (hdr, authService) {
@@ -46,6 +48,9 @@ angular.module('amClientApp')
     hdr.setCovenant = function (covenant) {
       hdr.covenantSelected = true;
       hdr.covenant = covenant;
+      if (!covenant || covenant == "") {
+        hdr.covenantSelected = false;
+      }
     };
 
     // extract current list of covenants from server

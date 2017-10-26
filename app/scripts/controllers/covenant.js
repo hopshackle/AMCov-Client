@@ -17,9 +17,9 @@ angular.module('amClientApp')
                     { field: "year", width: 60, allowCellFocus: false },
                     { field: "season", width: 80, allowCellFocus: false }
                 ];
-                for (var i in cov.covenant.allMagi) {
+                for (var i in cov.covenant.members) {
                     if (cov.selected[i]) {
-                        var m = cov.covenant.allMagi[i];
+                        var m = cov.covenant.members[i];
                         cov.columnDefs.push({
                             allowCellFocus: true,
                             displayName: m, field: m + ".prettyText()", width: "*",
@@ -54,9 +54,10 @@ angular.module('amClientApp')
                 });
             };
 
-            cov.covenant = db.getCovenantDetails($routeParams.covenant, function (covenant) {
+            db.getCovenantDetails($routeParams.covenant, function (covenant) {
+                cov.covenant = covenant;
                 if (Object.keys(cov.selected).length == 0) {
-                    for (var i in cov.covenant.allMagi) {
+                    for (var i in cov.covenant.members) {
                         cov.selected[i] = true;
                     }
                 }
@@ -65,7 +66,7 @@ angular.module('amClientApp')
             });
 
             cov.selectAll = function (allOn) {
-                for (var i in cov.covenant.allMagi) {
+                for (var i in cov.covenant.members) {
                     cov.selected[i] = allOn;
                 }
             };

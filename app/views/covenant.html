@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-md-6">
-        <h2>Covenant of {{cov.covenant.covenantName}}</h2>
+        <h2>Covenant of {{cov.covenant.name}}</h2>
         <p>{{cov.covenant.description}}</p>
     </div>
     <div class="col-md-6 form-group">
         <!-- cov.selected is an object, with a numerically named property for each selected item -->
         <!-- $index is evaluated as "0", "1", etc. -->
-        <div class="checkbox-inline" ng-repeat="magus in cov.covenant.allMagi">
+        <div class="checkbox-inline" ng-repeat="magus in cov.covenant.members">
             <input ng-model="cov.selected[$index]" id="{{magus}}" type="checkbox" name="{{magus}}" value="" /><label for="{{magus}}">{{magus}}</label>
         </div>
         <div class="btn btn-primary btn-small" ng-click="cov.selectAll(true)">
