@@ -7,8 +7,8 @@ angular.module('amClientApp')
 
             hdr.message = "";
             vm.insertMode = true;
-            vm.itemList = [];
-            vm.magiList = [];
+            vm.itemList = "";
+            vm.magiList = "";
 
             if ($routeParams.covenant && $routeParams.covenant != "") {
                 hdr.setCovenant($routeParams.covenant);
