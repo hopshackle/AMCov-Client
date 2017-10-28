@@ -10,7 +10,7 @@ angular.module('amClientApp')
 
             service.apiRegister = function (gridApi) {
                 service.gridApi = gridApi;
-            }
+            };
 
             db.getCovenantDetails($routeParams.covenant, function (covenant) {
                 service.covenant = covenant;
@@ -37,10 +37,14 @@ angular.module('amClientApp')
                             for (var record of magusData) {
                                 if (record.serviceForMagus && record.serviceForMagus != "") {
                                     data[record.serviceForMagus] += 1;
-                                    if (record.isService) data[record.serviceForMagus + "_S"] += 1;
+                                    if (record.isService) {
+                                        data[record.serviceForMagus + "_S"] += 1;
+                                    }
                                     // the _S keeps track of seasons service done for other magi
                                 } else {
-                                    if (record.isService) data.Service += 1;
+                                    if (record.isService) {
+                                        data.Service += 1;
+                                    }
                                 }
                             }
                         } else {
@@ -57,7 +61,7 @@ angular.module('amClientApp')
                     { field: "Magus", width: "*" },
                     { field: "Seasons", width: "*" },
                     { field: "Service", width: "*" }
-                ]
+                ];
 
                 for (var i in service.covenant.members) {
                     var m = service.covenant.members[i];
@@ -73,7 +77,9 @@ angular.module('amClientApp')
                     for (var i in service.covenant.members) {
                         var magus1 = service.covenant.members[i];
                         for (var j in service.covenant.members) {
-                            if (j <= i) continue;
+                            if (j <= i) {
+                                continue;
+                            }
                             var magus2 = service.covenant.members[j];
                             var oneForTwo = allData[i][magus2];
                             allData[i][magus2] -= allData[j][magus1];

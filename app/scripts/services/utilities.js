@@ -4,7 +4,7 @@ angular.module('amClientApp')
     .service('util', util);
 
 function util() {
-    
+
     return {
 
         save: function (key, value) {
@@ -12,15 +12,21 @@ function util() {
         },
         load: function (key, defaultValue) {
             var retValue = window.localStorage[key];
-            if (retValue) return retValue;
+            if (retValue) {
+                return retValue;
+            }
             return defaultValue;
         },
         convertToArray: function (items, separator) {
-            if (items) return items.split(separator);
+            if (items) {
+                return items.split(separator);
+            }
             return [];
         },
-        arrayToString: function(items, separator) {
-            if (items) return items.join(separator);
+        arrayToString: function (items, separator) {
+            if (items) {
+                return items.join(separator);
+            }
             return "";
         },
         seasonToNumber: function (seasonAsString) {
@@ -72,10 +78,10 @@ function util() {
                 for (var s = 1; s <= 4; s++) {
                     var key = y + "-" + s;
                     seasonKeys.push(key);
-                    var seasonRecord = { year: y, season: this.seasonToString(s) }
+                    var seasonRecord = { year: y, season: this.seasonToString(s) };
                     for (var magusName of covenant.members) {
                         seasonRecord[magusName] = {};
-                        seasonRecord[magusName].prettyText = function () { return "---" };
+                        seasonRecord[magusName].prettyText = function () { return "---"; };
                     }
                     seasonMap.set(key, seasonRecord);
                 }
@@ -85,6 +91,6 @@ function util() {
             retValue.seasonMap = seasonMap;
             return retValue;
         }
-    }
+    };
 }
 

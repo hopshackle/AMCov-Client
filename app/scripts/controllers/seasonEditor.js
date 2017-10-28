@@ -19,11 +19,11 @@ angular.module('amClientApp')
 
             scope.close = function () {
                 $uibModalInstance.close();
-            }
+            };
             scope.save = function () {
-                db.writeRecord(covenant.name, magus, year, season, scope.data, function(result) {
+                db.writeRecord(covenant.name, magus, year, season, scope.data, function() {
                     onSave();
                 });
                 $uibModalInstance.close();
-            }
+            };
         }]);

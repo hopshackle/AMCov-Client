@@ -24,7 +24,7 @@ angular.module('amClientApp')
                             allowCellFocus: true,
                             displayName: m, field: m + ".prettyText()", width: "*",
                             cellTemplate: 'templates/seasonCellTemplate.html',
-                            cellClass: function (grid, row, col, ri, rc) {
+                            cellClass: function (grid, row, col) {
                                 var result = "";
                                 if (row.entity[col.displayName].isService) {
                                     result = 'covService';
@@ -49,7 +49,7 @@ angular.module('amClientApp')
                 util.save($routeParams.covenant + "_sy", cov.startYear);
                 util.save($routeParams.covenant + "_ey", cov.endYear);
                 util.save($routeParams.covenant + "_ms", JSON.stringify(cov.selected));
-                cov.seasons = db.getSeasonData(cov.covenant, cov.startYear, cov.endYear, function (data) {
+                cov.seasons = db.getSeasonData(cov.covenant, cov.startYear, cov.endYear, function () {
                     cov.refreshColumns();
                 });
             };
@@ -72,9 +72,6 @@ angular.module('amClientApp')
             };
 
             cov.editCell = function (grid, row, col) {
-                var year = row.entity.year;
-                var season = row.entity.season;
-                var seasonAsInt = util.seasonToNumber(season);
                 $uibModal.open({
                     templateUrl: 'templates/edit-modal.html',
                     controller: 'SeasonEditController',
@@ -88,5 +85,5 @@ angular.module('amClientApp')
                         covenant: function () { return cov.covenant; }
                     }
                 });
-            }
+            };
         }]);

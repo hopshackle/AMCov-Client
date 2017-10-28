@@ -7,6 +7,9 @@ angular.module('amClientApp')
 
             hdr.message = "";
             vm.insertMode = true;
+            vm.itemList = [];
+            vm.magiList = [];
+
             if ($routeParams.covenant && $routeParams.covenant != "") {
                 hdr.setCovenant($routeParams.covenant);
                 vm.insertMode = false;
@@ -32,7 +35,7 @@ angular.module('amClientApp')
                 console.log(res);
                 var message = res.data.message ? res.data.message : (res.statusText + " (" + res.status + ")");
                 hdr.message = "Save to database failed: " + message;
-            }
+            };
 
             vm.save = function () {
                 var newCov = {};
@@ -40,20 +43,20 @@ angular.module('amClientApp')
                 newCov.description = vm.description;
                 newCov.items = vm.itemList.replace(/\r\n/g, "\n").split("\n");
                 newCov.members = vm.magiList.replace(/\r\n/g, "\n").split("\n");
-                if (!insertMode) {
+                if (!vm.insertMode) {
                     db.amendCovenant(newCov, insertCallback, insertOnError);
                 } else {
                     db.insertCovenant(newCov, insertCallback, insertOnError);
                 }
-            }
+            };
 
             vm.clear = function () {
                 vm.name = "";
                 vm.description = "";
                 vm.magiList = "";
-            }
+            };
 
             vm.delete = function() {
                 db.deleteCovenant(vm.name, insertCallback, insertOnError);
-            }
+            };
         }]);
